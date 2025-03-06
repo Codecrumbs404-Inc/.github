@@ -1,0 +1,29 @@
+name: Feature Request
+description: Suggest a new feature
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "## 🚀 Feature Request\nDescribe what you want to add."
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: "Describe your feature idea."
+      placeholder: "Explain how this would improve the project..."
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: "Explain how users would benefit from this."
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Low
+        - Medium
+        - High

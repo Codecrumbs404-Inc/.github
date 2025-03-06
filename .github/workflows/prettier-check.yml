@@ -1,0 +1,19 @@
+name: Prettier Check
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Check Formatting
+        run: |
+          npm run prettier -- --check

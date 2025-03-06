@@ -1,0 +1,54 @@
+name: Auto Label
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign Labels to Issues
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const labels = {
+              "bug": "bug",
+              "feature": "enhancement",
+            };
+            const title = context.payload.issue.title.toLowerCase();
+            for (const key in labels) {
+              if (title.includes(key)) {
+                github.rest.issues.addLabels({
+                  issue_number: context.payload.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  labels: [labels[key]]
+                });
+              }
+            }
+
+      - name: Assign Labels to PRs
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const title = context.payload.pull_request.title.toLowerCase();
+            if (title.includes("fix")) {
+              github.rest.issues.addLabels({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ["bugfix"]
+              });
+            }
+            if (title.includes("feature")) {
+              github.rest.issues.addLabels({
+                issue_number: context.payload.pull_request.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ["enhancement"]
+              });
+            }
